@@ -88,6 +88,22 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
 <img width="1920" height="1012" alt="Screenshot from 2025-12-11 20-04-15" src="https://github.com/user-attachments/assets/78ebe1fa-771b-47f8-8f76-c91b4b2858a3" />
 <img width="1920" height="1012" alt="Screenshot from 2025-12-11 20-05-32" src="https://github.com/user-attachments/assets/d11431f8-70ef-45d7-b482-2354c88f4030" />
 
+## DAY 3 — ## Design of a Library Cell Using Magic Layout and NGSPICE Characterization
+### ### 1. Clone the Custom Inverter Standard Cell Design
+#### Commands
+    cd Desktop/work/tools/openlane_working_dir/openlane
+    
+    git clone https://github.com/nickson-jose/vsdstdcelldesign
+    
+    cd vsdstdcelldesign
+    
+    # Command to open custom inverter layout in magic
+    magic -T sky130A.tech sky130_inv.mag &
+### Screenshot
+
+
+
+
 
 
 
