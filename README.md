@@ -163,3 +163,17 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
 #### Screenshot of generated plot
 
 <img width="1920" height="1012" alt="14" src="https://github.com/user-attachments/assets/d8fb248a-16bd-4dd2-bdbe-81eced603939" />
+
+### Identify and Fix DRC Issues in the Old Magic Tech File (SkyWater Process)
+For detailed DRC and layout rules, refer to the SkyWater Sky130 Periphery Rules: https://skywater-pdk.readthedocs.io/en/main/rules/periphery.html
+
+#### Commands to Download and View the Corrupted SkyWater Magic Tech File
+    cd
+    wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+    tar xfz drc_tests.tgz
+    cd drc_tests
+    ls -al
+    gvim .magicrc
+    magic -d XR &
+#### Screenshots of commands
+#### Screenshot of .magicrc file
