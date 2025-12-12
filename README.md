@@ -99,30 +99,67 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
     
     # Command to open custom inverter layout in magic
     magic -T sky130A.tech sky130_inv.mag &
-### Screenshot
+
+### Screenshots
+
+#### Command run
+<img width="1920" height="1012" alt="2" src="https://github.com/user-attachments/assets/c831f5ef-c267-4853-84da-e0441bc0e9b6" />
+
+#### Magic layout 
+
+<img width="1920" height="1012" alt="3" src="https://github.com/user-attachments/assets/3fa550fb-667f-4253-936a-51e8a62723ea" />
+
+#### pmos and nmos
+
+<img width="1920" height="1012" alt="4" src="https://github.com/user-attachments/assets/5ebe0628-6a39-4c31-9998-450d8f1b5833" />
+
+<img width="1920" height="1012" alt="5" src="https://github.com/user-attachments/assets/56514e0f-8a6c-4fa1-bffa-4759c7790dce" />
+
+###  Spice extraction of inverter in magic.
+
+#### COmmands
+    pwd
+    extract all
+    ext2spice cthresh 0 rthresh 0
+    ext2spice
+
+#### Screenshots
+
+<img width="1920" height="1012" alt="6" src="https://github.com/user-attachments/assets/cc86847a-fe44-40f8-936b-71a5850157f8" />
+
+<img width="1920" height="1012" alt="7" src="https://github.com/user-attachments/assets/a944f357-322d-4bf7-8990-9acf99fa49e7" />
+
+<img width="1920" height="1012" alt="8" src="https://github.com/user-attachments/assets/622230c1-e89e-4418-9ea8-fa787bba9219" />
+
+<img width="1920" height="1012" alt="9" src="https://github.com/user-attachments/assets/a4144f0c-8d31-438e-bd05-1f425c3e28f5" />
+
+#### Screenshot of created spice file
+
+<img width="1920" height="1012" alt="10" src="https://github.com/user-attachments/assets/bce66260-7b88-45ab-bc96-648c57dc61d2" />
+
+#### Measuring unit distance in layout grid
+
+<img width="1920" height="1012" alt="11" src="https://github.com/user-attachments/assets/dc5b0b61-cc30-403c-ba41-3fd9c8fdb8dc" />
+
+#### Final edited spice file
 
 
+###  Post-layout ngspice simulations.
 
+#### To install ngspice if the system dosent have
+    sudo apt install ngspice
 
+#### Commands for ngspice simulation
+    ngspice sky130_inv.spice
+#### Load the Plot in NGSPICE
+    plot y vs time a
 
+#### Screenshots of ngspice run
 
+<img width="1920" height="1012" alt="12" src="https://github.com/user-attachments/assets/6045f225-51c6-4af9-8479-48bb9ceeed72" />
 
+<img width="1920" height="1012" alt="13" src="https://github.com/user-attachments/assets/5620b5bc-ace5-4cbf-8501-01026c1ccb31" />
 
+#### Screenshot of generated plot
 
-
-
-
-
-
-
-
-
-
-
-     
-
-
-
-
-
-
+<img width="1920" height="1012" alt="14" src="https://github.com/user-attachments/assets/d8fb248a-16bd-4dd2-bdbe-81eced603939" />
