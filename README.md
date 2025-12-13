@@ -1,5 +1,4 @@
 
-
 # Digital VLSI SoC Design and Planning
 
 ## DAY 1  OPENLANE
@@ -235,6 +234,154 @@ For detailed DRC and layout rules, refer to the SkyWater Sky130 Periphery Rules:
 <img width="1920" height="1012" alt="15" src="https://github.com/user-attachments/assets/2e8ba57b-4f63-46cc-8e56-12aa1d78a39b" />
 
 ## Day 4 — Pre-Layout Timing Analysis and Importance of a Good Clock Tree
+
+### Fix Minor DRC Errors and Final Verification
+#### Commands to open the custom inverter layout
+    cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+    magic -T sky130A.tech sky130_inv.mag &
+
+#### Screenshot of tracks.info of sky130_fd_sc_hd
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-13-45" src="https://github.com/user-attachments/assets/0b603512-4657-4117-9df4-754645e353ec" />
+
+
+#### Commands for tkcon window to set grid as tracks of locali layer
+    grid 0.46um 0.34um 0.23um 0.17um
+#### Screenshot of commands run
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-17-47" src="https://github.com/user-attachments/assets/6b7f5e3a-8ca9-4935-bb6c-70cf0d832c53" />
+
+
+#### Condition 1 verified
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-18-54" src="https://github.com/user-attachments/assets/2a2cf3ab-b38b-42e2-b808-29f433047d7a" />
+
+
+
+
+#### Condition 2 verified
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-21-26" src="https://github.com/user-attachments/assets/644161d4-7d39-498c-a64e-34d1e8ebc6fa" />
+
+#### Condition 3 verified
+
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-22-38" src="https://github.com/user-attachments/assets/b603ba7b-91be-4ddd-a2b2-f3d04ae535f8" />
+
+
+#### Save the finalized layout with custom name and open it.
+    # Command to save as
+    save sky130_vsdinv.mag
+#### Command to open the newly saved layout
+    magic -T sky130A.tech sky130_vsdinv.mag &
+#### Screenshot of newly saved layout
+
+
+#### Generate lef from the layout.
+    lef write
+#### screenshot
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-30-49" src="https://github.com/user-attachments/assets/4089b64a-a9db-461d-9958-bfc52537b40a" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-31-28" src="https://github.com/user-attachments/assets/2d4590d9-595b-4a5b-b8f2-e7257442fc15" />
+
+
+#### Screenshot of newly created lef file
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-50-03" src="https://github.com/user-attachments/assets/5f2b1fa1-dcbe-4f32-bc35-4e7c6c420bb1" />
+
+
+
+### Copy LEF and LIB Files to `picorv32a` Design Source Directory
+
+Copy the newly generated LEF file and the required library (`.lib`) files into the `src` directory of the `picorv32a` design.
+
+```bash
+# Copy the LEF file
+cp sky130_vsdinv.lef \
+~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# Verify LEF file copy
+ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# Copy required LIB files
+cp libs/sky130_fd_sc_hd__* \
+~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+
+# Verify LIB files copy
+ls ~/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src/
+````
+#### Screenshot of commands run
+
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-40-19" src="https://github.com/user-attachments/assets/3df54c03-9bae-4358-9a93-175693a8ad48" />
+
+
+#### Edited config.tcl 
+
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-47-10" src="https://github.com/user-attachments/assets/f374718f-a0f1-4c84-a79c-8ed74319550d" />
+
+
+#### Run openlane flow synthesis with newly inserted custom inverter cell.
+before run_syntesis add 
+````
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+
+````
+#### Screenshots of commands run
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-50-03" src="https://github.com/user-attachments/assets/6e43fb30-8420-4f86-9cb6-3731c68b4b95" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 18-54-29" src="https://github.com/user-attachments/assets/0bcdc3c4-6660-4dd0-8be9-7baf124722ab" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-08-29" src="https://github.com/user-attachments/assets/8b83ad0e-574c-4ffa-a476-06b572e29cdf" />
+
+
+
+
+
+#### Commands to view and change parameters to improve timing and run synthes
+    $::env(SYNTH_STRATEGY)
+    set ::env(SYNTH_STRATEGY) "DELAY 3"
+    echo $::env(SYNTH_BUFFERING)
+    echo $::env(SYNTH_SIZING)
+    set ::env(SYNTH_SIZING) 1
+    echo $::env(SYNTH_DRIVING_CELL)
+    run_synthesis
+#### Screenshot of merged.lef
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-13-51" src="https://github.com/user-attachments/assets/6bde8db3-5df3-49a2-bbe8-78dd6e6f6988" />
+
+#### run_floorplan
+
+# screenshot
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-18-49" src="https://github.com/user-attachments/assets/183d2762-466a-4afa-8ba8-7dcbb9f6b469" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-19-59" src="https://github.com/user-attachments/assets/07ed82ad-68b6-4806-967a-219a9173b357" />
+
+
+#### Commands to load placement def in magic in another terminal
+    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/24-03_10-03/results/placement/
+    magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+
+#### screenshot
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-29-20" src="https://github.com/user-attachments/assets/5ecfbae2-41a8-44fc-affe-155f8679c62d" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-24-55" src="https://github.com/user-attachments/assets/90aafffd-0ca4-4286-a1c2-12590ca53fb7" />
+
+
+#### screenshot of internal layers
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-30-06" src="https://github.com/user-attachments/assets/6e535a8f-b0f8-4c0c-b579-53c99710ca66" />
+
+#### pre_sta.conf
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-13-28" src="https://github.com/user-attachments/assets/ad97c26a-db24-4e41-ab55-6547135146ed" />
+
+
+#### my_base.sdc
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-33" src="https://github.com/user-attachments/assets/ab9737f9-bed0-4df0-90dd-2deac9da4a08" />
+
+
+#### Commands to run STA in another terminal
+    cd Desktop/work/tools/openlane_working_dir/openlane
+    sta pre_sta.conf
+
+#### screenshots
+
+
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-44" src="https://github.com/user-attachments/assets/a52f3926-ce06-4306-b9d9-91863fb0e981" />
+<img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-50" src="https://github.com/user-attachments/assets/282ceb10-4e8e-4ca6-a3c8-310f8be4cdc8" />
+
+
+
+
+
+
 
 
 
