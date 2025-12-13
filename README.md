@@ -88,8 +88,8 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
 <img width="1920" height="1012" alt="Screenshot from 2025-12-11 20-04-15" src="https://github.com/user-attachments/assets/78ebe1fa-771b-47f8-8f76-c91b4b2858a3" />
 <img width="1920" height="1012" alt="Screenshot from 2025-12-11 20-05-32" src="https://github.com/user-attachments/assets/d11431f8-70ef-45d7-b482-2354c88f4030" />
 
-## DAY 3 — ## Design of a Library Cell Using Magic Layout and NGSPICE Characterization
-### ### 1. Clone the Custom Inverter Standard Cell Design
+## DAY 3 — Design of a Library Cell Using Magic Layout and NGSPICE Characterization
+### 1. Clone the Custom Inverter Standard Cell Design
 #### Commands
     cd Desktop/work/tools/openlane_working_dir/openlane
     
@@ -142,6 +142,8 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
 <img width="1920" height="1012" alt="11" src="https://github.com/user-attachments/assets/dc5b0b61-cc30-403c-ba41-3fd9c8fdb8dc" />
 
 #### Final edited spice file
+<img width="1920" height="1012" alt="1" src="https://github.com/user-attachments/assets/fa0014b0-1e1d-4f1c-83aa-04cec4e79ad4" />
+
 
 
 ###  Post-layout ngspice simulations.
@@ -176,4 +178,73 @@ For detailed DRC and layout rules, refer to the SkyWater Sky130 Periphery Rules:
     gvim .magicrc
     magic -d XR &
 #### Screenshots of commands
+
+<img width="1920" height="1012" alt="2" src="https://github.com/user-attachments/assets/ffb41ad4-8a8f-44fd-9a53-96fdb074d528" />
+<img width="1920" height="1200" alt="3" src="https://github.com/user-attachments/assets/a6cdaa08-be87-4a13-84a5-31d6a007dec3" />
+
 #### Screenshot of .magicrc file
+
+<img width="1920" height="1200" alt="4" src="https://github.com/user-attachments/assets/72c3526f-26a3-4cde-b5ce-c75a76042e1c" />
+
+### Correction of Incorrectly Implemented `poly.9` Simple Rule
+#### Screenshot of poly rules
+<img width="1920" height="1200" alt="5" src="https://github.com/user-attachments/assets/1c460a93-f905-4062-bc01-b11e210bcebe" />
+
+#### Screenshot of poly9
+<img width="1920" height="1012" alt="7" src="https://github.com/user-attachments/assets/17b5ff8e-a405-496a-8e9e-6c52394c56de" />
+
+<img width="1920" height="1200" alt="6" src="https://github.com/user-attachments/assets/6c0989bd-94d3-47cd-a19c-1b3575f08fd6" />
+
+#### New commands inserted in sky130A.tech file 
+<img width="1920" height="1012" alt="8" src="https://github.com/user-attachments/assets/a13356e4-1baa-49c4-8979-d6f02b2a7295" />
+<img width="1920" height="1012" alt="9" src="https://github.com/user-attachments/assets/a3ceac69-967f-40de-bbbc-aa2bf74c6eeb" />
+<img width="1920" height="1012" alt="10" src="https://github.com/user-attachments/assets/14734916-94f8-4202-9a31-d50f276593c2" />
+
+#### Commands to Run in tkcon Window
+
+    # Load the updated Magic tech file
+    tech load sky130A.tech
+
+    # Re-run DRC to check for updated errors
+    drc check
+
+    # Select the error region and view DRC messages
+    drc why
+
+<img width="1920" height="1012" alt="11" src="https://github.com/user-attachments/assets/5bfd875e-bb36-4b98-b569-cfe819fcf5a5" />
+
+#### Screenshot of difftap rules
+<img width="1090" height="549" alt="Screenshot 2025-12-13 173017" src="https://github.com/user-attachments/assets/fb8e9068-e994-48b6-a0dc-ab139900e7c6" />
+
+### Incorrectly implemented nwell.4 complex rule correction
+#### Screenshot of nwell rules
+<img width="1069" height="520" alt="image" src="https://github.com/user-attachments/assets/fcb70999-ebc9-458e-86f0-a5372870aafc" />
+
+### Incorrect Implementation of `nwell.4` Rule
+<img width="1920" height="1012" alt="13" src="https://github.com/user-attachments/assets/597c9798-2955-4e59-b1b8-e5ee010c9c73" />
+
+#### New commands inserted in sky130A.tech file to update drc
+<img width="1920" height="1012" alt="14" src="https://github.com/user-attachments/assets/404896fe-83ec-4309-a5c1-e52b19b73f01" />
+
+#### Commands to run in tkcon window
+    tech load sky130A.tech
+    drc style drc(full)
+    drc check
+    drc why
+
+<img width="1920" height="1012" alt="15" src="https://github.com/user-attachments/assets/2e8ba57b-4f63-46cc-8e56-12aa1d78a39b" />
+
+## Day 4 — Pre-Layout Timing Analysis and Importance of a Good Clock Tree
+
+
+
+
+
+
+
+
+
+
+
+
+
