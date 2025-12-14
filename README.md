@@ -377,6 +377,136 @@ add_lefs -src $lefs
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-44" src="https://github.com/user-attachments/assets/a52f3926-ce06-4306-b9d9-91863fb0e981" />
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-50" src="https://github.com/user-attachments/assets/282ceb10-4e8e-4ca6-a3c8-310f8be4cdc8" />
 
+## Section 5 — Final Steps for RTL2GDS Using TritonRoute and OpenSTA
+### 1. Power Distribution Network (PDN) Generation and Exploration
+#### Commands
+#### Running oprnlane
+    cd Desktop/work/tools/openlane_working_dir/openlane
+    docker
+    ./flow.tcl -interactive
+    package require openlane 0.9
+    prep -design picorv32a
+#### include newly added lef
+    set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+    add_lefs -src $lefs
+    # Command to set new value for SYNTH_STRATEGY
+    set ::env(SYNTH_STRATEGY) "DELAY 3"
+    # Command to set new value for SYNTH_SIZING
+    set ::env(SYNTH_SIZING) 1
+#### Run synthesis and floorplan
+    # 1ts
+    run_synthesis
+    #2nd
+    init_floorplan
+    place_io
+    tap_decap_or
+    #3rd
+    run_placement
+#### Run CTS
+    run_cts
+#### Do power distribution network
+    gen_pdn
+#### Screenshots of power distribution network run
+<img width="1920" height="1012" alt="1" src="https://github.com/user-attachments/assets/575d59e8-41b3-49ec-973b-1f4a3a3cfbe7" />
+<img width="1920" height="1012" alt="2" src="https://github.com/user-attachments/assets/55549ae7-b76c-426d-998f-3916f97f74d9" />
+
+#### Commands to load PDN def in magic
+    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-12_18-36/tmp/floorplan/
+    magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read 14-pdn.def &
+#### Screenshots of PDN def
+
+<img width="1920" height="1012" alt="3" src="https://github.com/user-attachments/assets/bc0a6cb7-c0fd-4d50-9622-f33f83345c57" />
+<img width="1920" height="1012" alt="4" src="https://github.com/user-attachments/assets/422ad695-49e8-42e8-95dc-3e1069356d9d" />
+<img width="1920" height="1012" alt="5" src="https://github.com/user-attachments/assets/9e01f71d-9f42-489f-848d-9928759843a9" />
+<img width="1920" height="1012" alt="6" src="https://github.com/user-attachments/assets/5434c213-cf09-47f6-adee-f1524f748aa3" />
+
+### Perform Detailed Routing Using TritonRoute and Explore the Routed Layout
+#### Commands
+    # Check value of 'CURRENT_DEF'
+    echo $::env(CURRENT_DEF)
+    
+    # Check value of 'ROUTING_STRATEGY'
+    echo $::env(ROUTING_STRATEGY)
+    
+    # Command for detailed route using TritonRoute
+    run_routing
+
+#### Screenshots
+<img width="1920" height="1012" alt="7" src="https://github.com/user-attachments/assets/5ad57138-a9bd-424a-8e8a-d35bac85d39e" />
+<img width="1920" height="1012" alt="8" src="https://github.com/user-attachments/assets/5de0ac9d-683a-4a67-8902-a60585d4f83c" />
+<img width="1920" height="1012" alt="9" src="https://github.com/user-attachments/assets/c61380fb-c603-4f72-a6cd-7263f3c211b6" />
+<img width="1920" height="1012" alt="10" src="https://github.com/user-attachments/assets/50e47357-66de-4636-9813-c5c5a68b8815" />
+
+
+#### Commands to load routed def in magic
+    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-12_18-36/results/routing/
+    magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.def &
+
+#### Screenshots of routed def
+<img width="1920" height="1012" alt="11" src="https://github.com/user-attachments/assets/714c5bc5-29a9-4f07-8786-d0fe1aac7f97" />
+<img width="1920" height="1012" alt="12" src="https://github.com/user-attachments/assets/514d46d8-e7cd-4bbd-8ae0-39c34d3ad8aa" />
+<img width="1920" height="1012" alt="13" src="https://github.com/user-attachments/assets/910dfa49-44e0-4f36-8e2e-509b05def33d" />
+
+#### Screenshot of FastRoute Guide
+<img width="1920" height="1012" alt="14" src="https://github.com/user-attachments/assets/1f80f633-7e1b-4d98-8b41-3624c08f92ec" />
+
+### Post-Route parasitic extraction using SPEF extractor
+#### Commands
+    cd Desktop/work/tools/SPEF_EXTRACTOR
+    python3 main.py /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-12_18-36/tmp/merged.lef /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-12_18-36/results/routing/picorv32a.def
+
+### Post-Route OpenSTA Timing Analysis
+#### Commands
+    # Command to run OpenROAD tool
+    openroad
+
+    # Reading lef file
+    read_lef /openLANE_flow/designs/picorv32a/runs/13-12_18-36/tmp/merged.lef
+
+    # Reading def file
+    read_def /openLANE_flow/designs/picorv32a/runs/13-12_18-36/results/routing/picorv32a.def
+
+    # Creating an OpenROAD database to work with
+    write_db pico_route.db
+
+    # Loading the created database in OpenROAD
+    read_db pico_route.db
+
+    # Read netlist post CTS
+    read_verilog /openLANE_flow/designs/picorv32a/runs/13-12_18-36/results/synthesis/picorv32a.synthesis_preroute.v
+
+    # Read library for design
+    read_liberty $::env(LIB_SYNTH_COMPLETE)
+
+    # Link design and library
+    link_design picorv32a
+
+    # Read in the custom sdc we created
+    read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+
+    # Setting all cloks as propagated clocks
+    set_propagated_clock [all_clocks]
+
+    # Read SPEF
+    read_spef /openLANE_flow/designs/picorv32a/runs/13-12_18-36/results/routing/picorv32a.spef
+
+    # Generating custom timing report
+    report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+
+    # Exit to OpenLANE flow
+    exit
+
+#### Screenshots
+
+<img width="1920" height="1012" alt="15" src="https://github.com/user-attachments/assets/e2fc401d-13c6-4445-ba21-8c8a29564194" />
+<img width="1920" height="1012" alt="16" src="https://github.com/user-attachments/assets/7ce3e34d-3582-4b85-a144-15c81c98b594" />
+<img width="1920" height="1012" alt="17" src="https://github.com/user-attachments/assets/f682ed3f-030d-4cb3-9c57-bc3bbeafaef2" />
+<img width="1920" height="1012" alt="18" src="https://github.com/user-attachments/assets/093bde72-d3ba-43ab-ae46-414aa55d8543" />
+
+
+
+
+
 
 
 
