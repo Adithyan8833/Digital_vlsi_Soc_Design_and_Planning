@@ -80,7 +80,7 @@ Run congestion-aware placement for the `picorv32a` design using OpenLANE:
 
 #### commands
 
-    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/17-03_12-06/results/placement/
+    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/11-12_12-23/results/placement/
     
     magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 ### screenshots
@@ -342,13 +342,13 @@ add_lefs -src $lefs
 
 #### run_floorplan
 
-# screenshot
+#### screenshot
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-18-49" src="https://github.com/user-attachments/assets/183d2762-466a-4afa-8ba8-7dcbb9f6b469" />
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 19-19-59" src="https://github.com/user-attachments/assets/07ed82ad-68b6-4806-967a-219a9173b357" />
 
 
 #### Commands to load placement def in magic in another terminal
-    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/24-03_10-03/results/placement/
+    cd Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/13-12_14-07/results/placement/
     magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
 
 #### screenshot
