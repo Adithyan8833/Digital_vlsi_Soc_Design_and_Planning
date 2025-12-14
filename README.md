@@ -1,8 +1,22 @@
 
 # Digital VLSI SoC Design and Planning
 
+![Workshop](https://img.shields.io/badge/Workshop-RTL%20to%20GDS-black)
+![Flow](https://img.shields.io/badge/Flow-OpenLANE-blue)
+![OS](https://img.shields.io/badge/OS-Linux-orange)
+![HDL](https://img.shields.io/badge/HDL-Verilog-red)
+![EDA](https://img.shields.io/badge/EDA-OpenROAD%20%7C%20Magic-green)
+![STA](https://img.shields.io/badge/Timing-OpenSTA-purple)
+
+````
+Two-Week Digital VLSI SoC Design and Planning Workshop covering the complete RTL-to-GDSII flow, organized by VSD in collaboration with
+````
+
+
 ## DAY 1  OPENLANE
 ### Synthesis of pikorv32a
+Synthesis of picorv32a means converting its RTL (Verilog) code into a gate-level netlist using standard cells, so the design can move to physical design steps like floorplanning and routing.
+### Steps
 #### 1. Open OpenLane environment
     docker
 
@@ -29,6 +43,7 @@
 0.108429685 × 100 = 10.84296854 %
 
 ## DAY 2 — Floorplan
+Floorplanning is the step where the chip’s size is defined and major blocks, I/O pins, and power/ground structures are placed to prepare the design for placement and routing.
 
 Before starting the floorplanning step, ensure that synthesis has been completed.  
 If not, run the synthesis process first.
@@ -234,6 +249,7 @@ For detailed DRC and layout rules, refer to the SkyWater Sky130 Periphery Rules:
 <img width="1920" height="1012" alt="15" src="https://github.com/user-attachments/assets/2e8ba57b-4f63-46cc-8e56-12aa1d78a39b" />
 
 ## Day 4 — Pre-Layout Timing Analysis and Importance of a Good Clock Tree
+Pre-Layout Timing Analysis checks whether the design meets timing requirements before physical layout by estimating delays, while a good clock tree ensures the clock reaches all registers with minimal skew and delay, enabling reliable and high-speed operation.
 
 ### Fix Minor DRC Errors and Final Verification
 #### Commands to open the custom inverter layout
@@ -377,7 +393,8 @@ add_lefs -src $lefs
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-44" src="https://github.com/user-attachments/assets/a52f3926-ce06-4306-b9d9-91863fb0e981" />
 <img width="1920" height="1012" alt="Screenshot from 2025-12-13 23-14-50" src="https://github.com/user-attachments/assets/282ceb10-4e8e-4ca6-a3c8-310f8be4cdc8" />
 
-## Section 5 — Final Steps for RTL2GDS Using TritonRoute and OpenSTA
+## Day 5 — Final Steps for RTL2GDS Using TritonRoute and OpenSTA
+This section covers detailed routing using TritonRoute and post-route timing analysis using OpenSTA to complete the RTL-to-GDSII flow.
 ### 1. Power Distribution Network (PDN) Generation and Exploration
 #### Commands
 #### Running oprnlane
