@@ -34,13 +34,24 @@ Synthesis of picorv32a means converting its RTL (Verilog) code into a gate-level
 <img width="1920" height="1200" alt="3" src="https://github.com/user-attachments/assets/df0a061b-1906-4d3e-9389-e68406b9d3af" />
 <img width="1920" height="1012" alt="4" src="https://github.com/user-attachments/assets/732216ab-22ff-4395-9cdd-b2bc2023a47e" />
 
-## Calculation of Flop Ratio and DFF % (from synthesis report)
+## Calculation of D Flip-Flop (DFF) Count and Flop Ratio(from synthesis report)
 
+The synthesis report provides important information about the composition of the synthesized design. Two key parameters extracted from the report are:
+- Total number of standard cells in the design
+- Total number of D Flip-Flops (DFFs)
+- Total number of cells = 14876  
+- Total number of D Flip-Flops (DFFs) = 1613
+  
 - **Flop Ratio**
-1613 / 14876 = 0.108429685
+  
+     1613 / 14876 = 0.108429685
 
 - **Percentage of DFFs**
-0.108429685 × 100 = 10.84296854 %
+
+     0.108429685 × 100 = 10.84296854 %
+
+A reasonable flop ratio indicates that the design is neither overly sequential nor overly combinational, which helps in achieving better timing and area optimization.
+
 
 ## DAY 2 — Floorplan
 Floorplanning is the step where the chip’s size is defined and major blocks, I/O pins, and power/ground structures are placed to prepare the design for placement and routing.
